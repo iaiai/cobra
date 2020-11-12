@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iaiai.cobra.repository.model.RoleMapper">
+    <!--查询-->
+    <select id="queryByUser" resultType="com.iaiai.cobra.repository.beans.Role">
+        select b.* from (
+            select * from user_role
+            where user_id=#{userId} and del=0
+        ) a
+        left join role b on a.role_id=b.id
+        order by seq asc
+    </select>
+</mapper>

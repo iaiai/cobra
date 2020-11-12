@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iaiai.cobra.repository.model.DeptMapper">
+    <resultMap type="com.iaiai.cobra.repository.beans.Dept" id="Dept">
+        <id     column="id"          property="id" />
+        <result column="parent_id"   property="parentId" />
+        <result column="name"        property="name" />
+        <result column="remark"      property="remark" />
+        <result column="seq"         property="seq" />
+        <result column="status"      property="status" />
+        <result column="leader"      property="leader" />
+        <result column="phone"       property="phone" />
+        <result column="email"       property="email" />
+        <result column="del"         property="del" />
+        <result column="create_time" property="createTime" />
+        <result column="modify_time" property="modifyTime" />
+    </resultMap>
+
+    <resultMap type="com.iaiai.cobra.repository.pojo.DeptPojo" id="DeptPojo">
+        <id     column="id"          property="id" />
+        <result column="parent_id"   property="parentId" />
+        <result column="name"        property="name" />
+        <result column="remark"      property="remark" />
+        <result column="seq"         property="seq" />
+        <result column="status"      property="status" />
+        <result column="leader"      property="leader" />
+        <result column="phone"       property="phone" />
+        <result column="email"       property="email" />
+        <result column="del"         property="del" />
+        <result column="create_time" property="createTime" />
+        <result column="modify_time" property="modifyTime" />
+
+        <!-- 扩展字段 -->
+        <collection property="children"
+                    column="id"
+                    ofType="com.iaiai.cobra.repository.pojo.DeptPojo"
+                    javaType="java.util.ArrayList"
+                    select="selectChildren"></collection>
+    </resultMap>
+
+    <resultMap type="com.iaiai.cobra.repository.pojo.DeptPojo" id="DeptNormal">
+        <id     column="id"          property="id" />
+        <result column="parent_id"   property="parentId" />
+        <result column="name"        property="name" />
+        <result column="remark"      property="remark" />
+        <result column="seq"         property="seq" />
+        <result column="status"      property="status" />
+        <result column="leader"      property="leader" />
+        <result column="phone"       property="phone" />
+        <result column="email"       property="email" />
+        <result column="del"         property="del" />
+        <result column="create_time" property="createTime" />
+        <result column="modify_time" property="modifyTime" />
+
+        <!-- 扩展字段 -->
+        <collection property="children"
+                    column="id"
+                    ofType="com.iaiai.cobra.repository.pojo.DeptPojo"
+                    javaType="java.util.ArrayList"
+                    select="selectChildrenNormal"></collection>
+    </resultMap>
+
+    <!--查询子菜单树-->
+    <select id="selectChildren" resultMap="DeptPojo">
+        select * from dept
+        where parent_id=#{parent_id} and del=0
+        order by seq asc
+    </select>
+
+    <!--查询子菜单树-->
+    <select id="selectChildrenNormal" resultMap="DeptNormal">
+        select * from dept
+        where parent_id=#{parent_id} and status=1 and del=0
+        order by seq asc
+    </select>
+
+    <!--根据所有，包含子，包含禁用的-->
+    <select id="queryAll" resultMap="DeptPojo">
+        select * from dept
+        where del=0
+        <choose>
+            <when test="parentId!=null and parentId!=''">
+                and parent_id=#{parentId}
+            </when>
+            <otherwise>
+                and parent_id is null
+            </otherwise>
+        </choose>
+        order by seq asc
+    </select>
+
+    <!--根据所有，包含子，包含禁用的-->
+    <select id="queryByChilder" resultMap="Dept">
+        select * from dept
+        where del=0 and parent_id=#{id}
+        order by seq asc
+    </select>
+
+    <!--根据所有，包含子，包含禁用的-->
+    <select id="queryByShow" resultMap="DeptNormal">
+        select * from dept
+        where del=0 and status=1 and parent_id is null
+        order by seq asc
+    </select>
+
+    <!--查询-->
+    <select id="queryByUser" resultMap="Dept">
+        select b.* from (
+            select * from user_dept
+            where user_id=#{userId} and del=0
+        ) a
+        left join dept b on a.dept_id=b.id
+        order by seq asc
+    </select>
+</mapper>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iaiai.cobra.repository.model.UserDeptMapper">
+    <!--删除用户的部门-->
+    <update id="delByUser">
+        UPDATE user_dept
+        SET
+            del=1,
+            modify_time=now()
+        WHERE user_id=#{userId} and del=0
+    </update>
+
+    <!--查询-->
+    <select id="queryByUser" resultType="com.iaiai.cobra.repository.beans.UserDept">
+        select * from user_dept
+        where del=0 and user_id=#{userId}
+    </select>
+</mapper>

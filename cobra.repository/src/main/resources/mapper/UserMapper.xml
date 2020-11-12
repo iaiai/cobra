@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iaiai.cobra.repository.model.UserMapper">
+    <resultMap type="com.iaiai.cobra.repository.beans.User" id="User">
+        <id     column="id"          property="id" />
+        <result column="username"    property="username" />
+        <result column="password"    property="password" />
+        <result column="nickname"    property="nickname" />
+        <result column="realname"    property="realname" />
+        <result column="sex"         property="sex" />
+        <result column="email"       property="email" />
+        <result column="status"      property="status" />
+        <result column="phone"       property="phone" />
+        <result column="remark"      property="remark" />
+        <result column="face"        property="face" />
+        <result column="del"         property="del" />
+        <result column="create_time" property="createTime" />
+        <result column="modify_time" property="modifyTime" />
+    </resultMap>
+
+    <resultMap type="com.iaiai.cobra.repository.pojo.UserPojo" id="UserPojo">
+        <id     column="id"          property="id" />
+        <result column="username"    property="username" />
+        <result column="nickname"    property="nickname" />
+        <result column="realname"    property="realname" />
+        <result column="sex"         property="sex" />
+        <result column="email"       property="email" />
+        <result column="status"      property="status" />
+        <result column="phone"       property="phone" />
+        <result column="remark"      property="remark" />
+        <result column="face"        property="face" />
+        <result column="del"         property="del" />
+        <result column="create_time" property="createTime" />
+        <result column="modify_time" property="modifyTime" />
+
+        <!-- 扩展字段 -->
+        <result column="dept_id"     property="deptId" />
+        <result column="dept_name"   property="deptName" />
+    </resultMap>
+
+    <sql id="field">
+        id,
+        username,
+        password,
+        nickname,
+        realname,
+        sex,
+        email,
+        status,
+        phone,
+        remark,
+        face,
+        del,
+        create_time,
+        modify_time
+    </sql>
+    <sql id="field_nopwd">
+        id,
+        username,
+        nickname,
+        realname,
+        sex,
+        email,
+        status,
+        phone,
+        remark,
+        face,
+        del,
+        create_time,
+        modify_time
+    </sql>
+
+    <sql id="fieldValue">
+        #{id},
+        #{username},
+        #{password},
+        #{nickname},
+        #{realname},
+        #{sex},
+        #{email},
+        #{status},
+        #{phone},
+        #{remark},
+        #{face},
+        #{del},
+        #{createTime},
+        #{modifyTime}
+    </sql>
+    <!--表名 -->
+    <sql id="tableName">user</sql>
+
+    <!--查询密码-->
+    <select id="queryByUserAndPassword" resultMap="User">
+        select <include refid="field"/> from <include refid="tableName" />
+        where username = #{username} and del=0
+    </select>
+
+    <!--查询密码-->
+    <select id="queryByUser" resultMap="User">
+        select <include refid="field_nopwd"/> from <include refid="tableName" />
+        where username = #{username} and del=0
+    </select>
+
+    <!--查询密码-->
+    <select id="load" resultMap="User">
+        select <include refid="field_nopwd"/> from <include refid="tableName" />
+        where id=#{id}
+    </select>
+
+    <!--查询密码-->
+    <select id="queryByDept" resultMap="UserPojo">
+        select <include refid="field_nopwd"/>,dept_id,dept_name from (
+            select a.*,b.name as dept_name from (
+                select b.*,a.dept_id from (
+                    select user_id,dept_id from user_dept
+                    where del=0
+                    <if test="deptId!=null and deptId!=''">
+                        and dept_id=#{deptId}
+                    </if>
+                ) a
+                left join user b on a.user_id=b.id
+                where del=0
+            ) a
+            left join dept b on a.dept_id=b.id
+        ) a
+        <where>
+            <if test="search!=null and search!=''">
+                username like concat('%',#{search},'%')
+                or nickname like concat('%',#{search},'%')
+                or realname like concat('%',#{search},'%')
+                or phone like concat('%',#{search},'%')
+                or remark like concat('%',#{search},'%')
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+</mapper>

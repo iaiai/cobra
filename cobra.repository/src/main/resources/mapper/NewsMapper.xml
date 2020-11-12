@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iaiai.cobra.repository.model.NewsMapper">
+
+    <!--查询密码-->
+    <select id="queryAll" resultType="com.iaiai.cobra.repository.pojo.NewsPojo">
+        select a.*,b.name as type_name from (
+            select * from news
+            <where>
+                del=0
+                <if test="typeId!=null and typeId!=''">
+                    and type_id=#{typeId}
+                </if>
+                <if test="search!=null and search!=''">
+                    and (title like concat('%',#{search},'%')
+                    or content like concat('%',#{search},'%'))
+                </if>
+            </where>
+        ) a
+        left join news_type b on a.type_id=b.id
+        order by a.release_start_time desc
+    </select>
+
+</mapper>

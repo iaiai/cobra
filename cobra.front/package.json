@@ -1,0 +1,65 @@
+{
+    "name": "cobra",
+    "version": "1.0.0",
+    "description": "眼镜蛇后台管理系统",
+    "copyright": "Copyright ©2019-{{year}}",
+    "companyName": "丸子版权所有",
+    "author": "丸子-qq-176291935",
+    "private": true,
+    "scripts": {
+        "serve": "vue-cli-service serve",
+        "build": "vue-cli-service build",
+        "lint": "vue-cli-service lint"
+    },
+    "dependencies": {
+        "@ckeditor/ckeditor5-build-decoupled-document": "^23.0.0",
+        "@tinymce/tinymce-vue": "^3.2.4",
+        "axios": "^0.20.0",
+        "core-js": "^3.6.5",
+        "echarts": "^4.9.0",
+        "less": "^3.12.2",
+        "less-loader": "^7.0.2",
+        "marked": "^1.2.2",
+        "mavon-editor": "^2.9.0",
+        "screenfull": "^5.0.2",
+        "tinymce": "^5.5.1",
+        "view-design": "^4.4.0-rc.4",
+        "vue": "^2.6.11",
+        "vue-bus": "^1.2.1",
+        "vue-codemirror": "^4.0.6",
+        "vue-neditor-wrap": "^1.0.4",
+        "vue-particles": "^1.0.9",
+        "vue-qr": "^2.3.0",
+        "vue-router": "^3.4.6",
+        "vue-ueditor-wrap": "^2.4.4",
+        "vuex": "^3.5.1",
+        "wangeditor": "^4.0.4"
+    },
+    "devDependencies": {
+        "@vue/cli-plugin-babel": "^4.5.0",
+        "@vue/cli-plugin-eslint": "^4.5.0",
+        "@vue/cli-service": "^4.5.0",
+        "babel-eslint": "^10.1.0",
+        "eslint": "^6.7.2",
+        "eslint-plugin-vue": "^6.2.2",
+        "vue-template-compiler": "^2.6.11"
+    },
+    "eslintConfig": {
+        "root": true,
+        "env": {
+            "node": true
+        },
+        "extends": [
+            "plugin:vue/essential",
+            "eslint:recommended"
+        ],
+        "rules": {},
+        "parserOptions": {
+            "parser": "babel-eslint"
+        }
+    },
+    "browserslist": [
+        "> 1%",
+        "last 2 versions"
+    ]
+}

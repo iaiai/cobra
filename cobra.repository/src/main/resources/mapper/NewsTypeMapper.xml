@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iaiai.cobra.repository.model.NewsTypeMapper">
+    <resultMap type="com.iaiai.cobra.repository.beans.NewsType" id="NewsType">
+        <id     column="id"          property="id" />
+        <result column="parent_id"   property="parentId" />
+        <result column="name"        property="name" />
+        <result column="icon"        property="icon" />
+        <result column="show"        property="show" />
+        <result column="seq"         property="seq" />
+        <result column="remark"      property="remark" />
+        <result column="del"         property="del" />
+        <result column="create_time" property="createTime" />
+        <result column="modify_time" property="modifyTime" />
+    </resultMap>
+
+    <resultMap type="com.iaiai.cobra.repository.pojo.NewsTypePojo" id="NewsTypePojo">
+        <id     column="id"          property="id" />
+        <result column="parent_id"   property="parentId" />
+        <result column="name"        property="name" />
+        <result column="icon"        property="icon" />
+        <result column="show"        property="show" />
+        <result column="seq"         property="seq" />
+        <result column="remark"      property="remark" />
+        <result column="del"         property="del" />
+        <result column="create_time" property="createTime" />
+        <result column="modify_time" property="modifyTime" />
+
+        <!-- 扩展字段 -->
+        <collection property="children"
+                    column="id"
+                    ofType="com.iaiai.cobra.repository.pojo.NewsTypePojo"
+                    javaType="java.util.ArrayList"
+                    select="selectChildren"></collection>
+    </resultMap>
+
+    <sql id="field">
+        id,
+        parent_id,
+        name,
+        icon,
+        `show`,
+        seq,
+        remark,
+        del,
+        create_time,
+        modify_time
+    </sql>
+    <sql id="fieldValue">
+        #{id},
+        #{parentId},
+        #{name},
+        #{icon},
+        #{show},
+        #{seq},
+        #{remark},
+        #{del},
+        #{createTime},
+        #{modifyTime}
+    </sql>
+
+    <!--表名 -->
+    <sql id="tableName">news_type</sql>
+
+    <!--查询子菜单树-->
+    <select id="selectChildren" resultMap="NewsTypePojo">
+        select <include refid="field"/> from <include refid="tableName" />
+        where parent_id=#{parent_id} and del=0
+        order by seq asc
+    </select>
+
+    <!--根据所有，包含子，包含不显示的-->
+    <select id="queryAll" resultMap="NewsTypePojo">
+        select <include refid="field"/> from <include refid="tableName" />
+        where del=0
+        <choose>
+            <when test="parentId!=null and parentId!=''">
+                and parent_id=#{parentId}
+            </when>
+            <otherwise>
+                and parent_id is null
+            </otherwise>
+        </choose>
+        order by seq asc
+    </select>
+
+    <!--根据父级查询(为空则是顶层)-->
+    <select id="queryByParent" resultMap="NewsType">
+        select <include refid="field"/> from <include refid="tableName" />
+        where del=0
+        <choose>
+            <when test="parentId!=null and parentId!=''">
+                and parent_id=#{parentId}
+            </when>
+            <otherwise>
+                and parent_id is null
+            </otherwise>
+        </choose>
+        order by seq asc
+    </select>
+</mapper>

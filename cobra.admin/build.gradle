@@ -1,0 +1,33 @@
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    compile project(':cobra.repository')
+    compile project(':cobra.common')
+    compile project(':cobra.platform')
+
+    compile("org.springframework.boot:spring-boot-starter:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-aop:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-websocket:${springBootVersion}")
+
+    compile("commons-io:commons-io:2.6")
+    compile("org.aspectj:aspectjrt:1.9.5")
+    compile("org.aspectj:aspectjweaver:1.9.5")
+    compile("cglib:cglib:3.3.0")
+
+    compile("commons-fileupload:commons-fileupload:1.3.1")
+
+    compile("org.apache.poi:poi:4.1.2")
+    compile("org.apache.poi:poi-ooxml:4.1.2")
+    compile("org.apache.poi:poi-contrib:3.6")
+    compile("org.apache.poi:poi-ooxml-schemas:4.1.2")
+    compile("org.apache.poi:poi-scratchpad:4.1.2")
+
+    compile("com.alibaba:druid-spring-boot-starter:1.1.22")
+
+    compile("com.github.isrsal:spring-mvc-logger:0.2") {
+        exclude group: 'log4j', module: 'log4j'
+        exclude group: 'javax.servlet', module: 'servlet-api'
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+    }
+}

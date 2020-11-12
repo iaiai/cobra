@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iaiai.cobra.repository.model.LogMapper">
+
+    <select id="queryAll" resultType="com.iaiai.cobra.repository.beans.Log">
+        select * from log
+        <where>
+            <if test="startTime!=null and startTime!=''">
+                and create_time>=#{startTime}
+            </if>
+            <if test="endTime!=null and endTime!=''">
+                and create_time &lt;= #{endTime}
+            </if>
+            <if test="search!=null and search!=''">
+                and (
+                    headers like concat('%',#{search},'%')
+                    or ip like concat('%',#{search},'%')
+                    or params like concat('%',#{search},'%')
+                    or params_body like concat('%',#{search},'%')
+                    or method like concat('%',#{search},'%')
+                    or user_agent like concat('%',#{search},'%')
+                    or ip_forward like concat('%',#{search},'%')
+                    or ip_address like concat('%',#{search},'%')
+                    or url like concat('%',#{search},'%')
+                )
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+</mapper>

@@ -1,0 +1,54 @@
+buildscript {
+    ext {
+        springBootVersion = '2.2.1.RELEASE'
+    }
+    repositories {
+        maven {
+            url = 'http://maven.aliyun.com/nexus/content/groups/public'
+        }
+    }
+    dependencies {
+        classpath 'net.nisgits.gradle:gradle-executable-jar-plugin:1.7.0'
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+
+subprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'io.spring.dependency-management'
+
+    compileJava {
+        options.encoding = 'utf-8'
+    }
+
+    group = 'com.iaiai.cobra'
+    version = '1.0.0'
+
+    sourceCompatibility = 1.8
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        maven { url 'http://nexus.hebeixinzhe.com/repository/maven-public/' }
+        maven { url 'https://dl.bintray.com/qcloud/maven-repo/' }
+        mavenCentral()
+    }
+
+    dependencies {
+        compile("org.springframework.boot:spring-boot-starter-data-redis:${springBootVersion}")
+
+        compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+        compile group: 'commons-codec', name: 'commons-codec', version: '1.13'
+        compile group: 'org.projectlombok', name: 'lombok', version: '1.18.10'
+        annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.10'
+
+        compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.5.2'
+        compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.20'
+        compile group: 'com.baomidou', name: 'mybatis-plus-boot-starter', version: '3.3.0'
+
+        compile("org.springframework.boot:spring-boot-starter-data-redis:${springBootVersion}")
+        compile("org.springframework.session:spring-session-data-redis:${springBootVersion}")
+    }
+}

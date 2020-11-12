@@ -1,0 +1,6 @@
+rootProject.name = 'cobra'
+include 'cobra.admin'
+include 'cobra.common'
+include 'cobra.repository'
+include 'cobra.platform'
+

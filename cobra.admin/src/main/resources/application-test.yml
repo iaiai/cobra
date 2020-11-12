@@ -1,0 +1,54 @@
+#本地测试
+server:
+  port: 8001  #定义application启动端口
+
+spring:
+  profiles:
+    include: base
+
+  #mysql 配置
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    dbType: mysql
+    #        driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/cobra?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 111111
+    useGlobalDataSourceStat: true
+    druid:
+      #配置StatViewServlet
+      stat-view-servlet:
+        #允许那些ip
+        allow: 127.0.0.1
+        login-username: admin
+        login-password: 123456
+        #启用
+        enabled: true
+        #是否可以重置
+        reset-enable: true
+        url-pattern: "/druid/*"
+  redis:
+    host: 127.0.0.1
+    database: 1
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码（默认为空）
+    password: 111111
+
+
+debug: false
+logging:
+  config: classpath:log/logback_test.xml
+#  level:
+#    com.iaiai.cobra: DEBUG
+#
+#    #不同目录下的日志可配置不同级别
+#    org.springfromework.web: DEBUG
+#    org.hibernate: DEBUG
+
+cobra:
+  upload:
+    web-request-url: https://file.iaiai.com  #上传图片之后的请求地址
+    tmp-folder: /tmp/   #上传时临时存储目录
+    file-folder: test/images/   #文件目录
+  debug: true    #是否是调试

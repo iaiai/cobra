@@ -1,0 +1,14 @@
+*.iml
+.gradle
+.idea
+.DS_Store
+build
+target
+node_modules
+/dist
+/logs
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

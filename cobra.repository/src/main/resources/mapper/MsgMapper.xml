@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iaiai.cobra.repository.model.MsgMapper">
+    <update id="editReadAll">
+        UPDATE msg
+        SET `read`=1,read_time=now()
+        WHERE user_id=#{userId} and `read`=0
+    </update>
+</mapper>
